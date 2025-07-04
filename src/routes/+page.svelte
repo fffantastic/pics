@@ -1,59 +1,44 @@
 <script lang="ts">
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcomeFallback from '$lib/images/svelte-welcome.png';
+	import '$lib/component/styles/style.css';
+
+	import list from "$lib/json/list.json";
+	import { appStore } from "$lib/app/store.svelte";
+
+	import Search from "$lib/component/components/common/form/Search.svelte";
+	import TagFilter from "$lib/component/components/common/filters/TagFilter.svelte";
+
+	// appStore.setSelectedValue("가위");
+	// appStore.setSelectedValue("한양대");
+	// appStore.setFilteredImages();
+	// $inspect(appStore.filteredImages);
+
 </script>
 
 <svelte:head>
 	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<meta name="원아트 아카이브" content="원아트 미술학원 입시자료 저장소" />
 </svelte:head>
 
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcomeFallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
+<section class="flex-column">
+	<div class="search-container">
+		<Search
+		items={list}
+		placeholder="대학 또는 사물..."
+		onSelect={appStore.setSelectedValue}
+		backgroundColor="var(--color-overlay-dark_005)"
+	/>
+	</div>	
+	<TagFilter
+		selectedTags={appStore.selectedValue}
+		onTagToggle={appStore.setSelectedValue}
+	/>
 </section>
 
 <style>
 	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
+		margin: 1rem;
 	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
+	.search-container{
+		background-color: var(--color-overlay-dark_005);
 	}
 </style>
