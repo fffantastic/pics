@@ -57,6 +57,8 @@
 				items={list.items}
 				placeholder="사물"
 				onSelect={appStore.toggleItem}
+				backgroundColor="var(--color-overlay-light_07)"
+
 			/>
 		</div>
 	</section>
