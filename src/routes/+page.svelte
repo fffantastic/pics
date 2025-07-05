@@ -109,14 +109,13 @@
 		transition: flex 0.3s ease;
 		background-color: var(--color-overlay-dark_005);
 		max-width: 80%;
-		font-size: var(--font-size-small);
 	}
 
 	.search:focus-within {
-		flex: 7;
+		flex: 6;
 	}
 	.search:focus-within ~ .search {
-		flex: 3;
+		flex: 4;
 	}
 
 	.no-image {
