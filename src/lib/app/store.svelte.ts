@@ -1,6 +1,7 @@
 const createStore = () => {
     let selectedUnivs = $state<Set<string>>(new Set());
     let selectedItems = $state<Set<string>>(new Set());
+    let noSelected = $derived(selectedUnivs.size === 0 && selectedItems.size === 0);
 
     const toggleInSet = (set: Set<string>, item: string): Set<string> => {
         const newSet = new Set(set);
@@ -20,7 +21,6 @@ const createStore = () => {
     let filteredImages = $derived.by(async () => {
         const noUniv = selectedUnivs.size === 0;
         const noItem = selectedItems.size === 0;
-
         if (noUniv && noItem) return [];
 
         const { default: comp } = await import('$lib/json/comp.json');
@@ -33,7 +33,7 @@ const createStore = () => {
         const compFiltered = allComp.filter(matchesSelectedItems);
         const ideaFiltered = allIdea.filter(matchesSelectedItems);
         const matchedItems = matchKeys(selectedItems, items);
-    
+
         return [
           ...compFiltered,
           ...ideaFiltered,
@@ -42,6 +42,9 @@ const createStore = () => {
     });
 
     return {
+        get noSelected() {
+            return noSelected;
+        },
         get selectedUnivs() {
             return selectedUnivs;
         },
