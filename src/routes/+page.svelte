@@ -31,6 +31,16 @@
 	<meta name="원아트 아카이브" content="원아트 미술학원 입시자료 저장소" />
 </svelte:head>
 
+{#snippet displayMessage(text: string[])}
+    <section class="no-image flex-center flex-column">
+        {#each text as line}
+            <p>{line}</p>
+        {/each}
+        <div class="circle"></div>
+    </section>
+{/snippet}
+
+
 <main class="flex-column">
 	<section class="flex-align-center">
 		<div class="icon"><img src="{base}/favicon.svg" alt="logo" /></div>
@@ -66,18 +76,13 @@
 			transition:fade={{ duration: 500 }}
 		>
 			<LoadingBall color="--color-primary" />
-			<p>잠시만 기다려 주세요.</p>
-			<p>이미지를 불러오고 있어요!</p>
 		</div>
+		{@render displayMessage(["잠시만 기다려 주세요.","이미지를 불러오고 있어요!"])}
+
 	{:then artworks}
 		{#if appStore.noSelected}
-			<section
-				class="no-image flex-center"
-				transition:fade={{ duration: 500 }}
-			>
-				<div>대학이나 사물을 검색해 이미지를 찾아보세요.</div>
-				<div class="circle"></div>
-			</section>
+			{@render displayMessage(["대학이나 사물을 검색해","이미지를 찾아보세요!"])}
+			 
 		{:else if artworks.length > 0}
 			<Masonry
 				path={base + "/img/thum/"}
@@ -85,17 +90,11 @@
 				onArtworkClick={handleArtworkClick}
 			/>
 		{:else}
-			<section class="no-image flex-center flex-column">
-				<p>아쉽게도 검색어 조합과</p>
-				<p>일치하는 이미지가 없어요.</p>
-				<div class="circle"></div>
-			</section>
+			{@render displayMessage(["아쉽게도 검색어 조합과","일치하는 이미지가 없어요."])}
 		{/if}
+
 	{:catch error}
-		<section class="no-image flex-center flex-column">
-			<p>이미지를 불러오지 못했어요.</p>
-			<p>인터넷 연결을 확인한 뒤, 잠시 후 다시 시도해 주세요.</p>
-		</section>
+		{@render displayMessage(["이미지를 불러오지 못했어요.","인터넷 연결을 확인한 뒤","잠시 후 다시 시도해 주세요."])}
 	{/await}
 </main>
 
