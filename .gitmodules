@@ -1,3 +1,0 @@
-[submodule "src/lib/component"]
-	path = src/lib/component
-	url = https://github.com/fffantastic/svelte_component.git
