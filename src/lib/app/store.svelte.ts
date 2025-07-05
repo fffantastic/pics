@@ -36,8 +36,8 @@ const createStore = () => {
 
         return [
           ...compFiltered,
-          ...ideaFiltered,
-          ...matchedItems
+          ...matchedItems,
+          ...ideaFiltered
         ];
     });
 
