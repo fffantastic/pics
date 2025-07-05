@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import "$lib/component/styles/style.css";
 
 	import list from "$lib/json/list.json";
@@ -50,7 +51,7 @@
 	{:then artworks}
 		{#if artworks.length > 0}
 			<Masonry 
-				path="/img/thum/"
+				path={base + "/img/thum/"}
 				{artworks}
 			/>
 		{:else}
