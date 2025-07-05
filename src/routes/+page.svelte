@@ -45,10 +45,20 @@
 />
 </section>
 <section>
-	<Masonry 
-		path="/img/thum/"
-		artworks={appStore.filteredImages}
-	/>
+	{#await appStore.filteredImages}
+		<p>이미지를 불러오는 중...</p>
+	{:then artworks}
+		{#if artworks.length > 0}
+			<Masonry 
+				path="/img/thum/"
+				{artworks}
+			/>
+		{:else}
+			<p>대학이나 사물을 검색하여 이미지를 찾아보세요.</p>
+		{/if}
+	{:catch error}
+		<p style="color: red;">이미지를 불러오는데 실패했습니다: {error.message}</p>
+	{/await}
 </section>
 </main>
 

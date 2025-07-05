@@ -1,7 +1,3 @@
-import comp from '$lib/json/comp.json';
-import idea from '$lib/json/idea.json';
-import items from '$lib/json/items.json';
-
 const createStore = () => {
     let selectedUnivs = $state<Set<string>>(new Set());
     let selectedItems = $state<Set<string>>(new Set());
@@ -21,14 +17,15 @@ const createStore = () => {
     const matchesSelectedItems = (image: any): boolean =>
         selectedItems.size === 0 || (image.items ?? []).some((item:string) => selectedItems.has(item));
 
-    const matchItem = (items:string[]) => {
-        if(selectedItems.size === 0) return true;
-        return items.some((item:string) => selectedItems.has(item));
-    }
-
-    let filteredImages = $derived.by(() => {
+    let filteredImages = $derived.by(async () => {
         const noUniv = selectedUnivs.size === 0;
         const noItem = selectedItems.size === 0;
+
+        if (noUniv && noItem) return [];
+
+        const { default: comp } = await import('$lib/json/comp.json');
+        const { default: idea } = await import('$lib/json/idea.json');
+        const { default: items } = await import('$lib/json/items.json');
 
         const allComp = noUniv ? Object.values(comp).flat() : matchKeys(selectedUnivs, comp);
         const allIdea = noUniv ? Object.values(idea).flat() : matchKeys(selectedUnivs, idea);
@@ -36,8 +33,6 @@ const createStore = () => {
         const compFiltered = allComp.filter(matchesSelectedItems);
         const ideaFiltered = allIdea.filter(matchesSelectedItems);
         const matchedItems = matchKeys(selectedItems, items);
-
-        if (noUniv && noItem) return [];
     
         return [
           ...compFiltered,
