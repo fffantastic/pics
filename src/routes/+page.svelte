@@ -108,7 +108,8 @@
 		flex: 1;
 		transition: flex 0.3s ease;
 		background-color: var(--color-overlay-dark_005);
-		max-width: 80%;
+		width: 10rem;
+
 	}
 
 	.search:focus-within {
